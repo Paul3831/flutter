@@ -2,41 +2,45 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 
 void main() {
-  runApp(MemoryGame());
+  runApp(
+      MemoryGame()); // Point d'entrée de l'application, lance l'application MemoryGame.
 }
 
+// Classe principale de l'application, un widget StatelessWidget.
 class MemoryGame extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Memory Game',
+      title: 'Memory Game', // Titre de l'application.
       theme: ThemeData(
-        primarySwatch: Colors.blue,
+        primarySwatch: Colors.blue, // Thème de l'application.
       ),
-      home: DifficultySelectionScreen(),
+      home: DifficultySelectionScreen(), // Page d'accueil de l'application.
     );
   }
 }
 
+// Écran de sélection de la difficulté, un widget StatelessWidget.
 class DifficultySelectionScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Memory Game'),
-        centerTitle: true,
+        title: Text('Memory Game'), // Titre de la barre d'applications.
+        centerTitle: true, // Centre le titre dans la barre d'applications.
       ),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Text(
-              'Choisissez la difficulté :',
+              'Choisissez la difficulté :', // Texte de sélection de la difficulté.
               style: TextStyle(fontSize: 24),
             ),
-            SizedBox(height: 40),
+            SizedBox(height: 40), // Espace vertical.
             ElevatedButton(
               onPressed: () {
+                // Redirige vers l'écran du jeu en mode facile.
                 Navigator.push(
                   context,
                   MaterialPageRoute(
@@ -45,13 +49,14 @@ class DifficultySelectionScreen extends StatelessWidget {
                 );
               },
               child: Text(
-                'Facile',
+                'Facile', // Bouton pour le mode facile.
                 style: TextStyle(fontSize: 20),
               ),
             ),
-            SizedBox(height: 20),
+            SizedBox(height: 20), // Espace vertical.
             ElevatedButton(
               onPressed: () {
+                // Redirige vers l'écran du jeu en mode difficile.
                 Navigator.push(
                   context,
                   MaterialPageRoute(
@@ -60,7 +65,7 @@ class DifficultySelectionScreen extends StatelessWidget {
                 );
               },
               child: Text(
-                'Difficile',
+                'Difficile', // Bouton pour le mode difficile.
                 style: TextStyle(fontSize: 20),
               ),
             ),
@@ -71,6 +76,7 @@ class DifficultySelectionScreen extends StatelessWidget {
   }
 }
 
+// Écran principal du jeu de mémoire, un widget StatefulWidget.
 class MemoryGameScreen extends StatefulWidget {
   final bool isHardMode;
 
@@ -81,6 +87,7 @@ class MemoryGameScreen extends StatefulWidget {
 }
 
 class _MemoryGameScreenState extends State<MemoryGameScreen> {
+  // Listes de cartes pour les modes facile et difficile.
   List<String> easyCards = ['🌼', '🍎', '🐶', '🚲', '🎈', '🌟', '🚀', '🍕'];
   List<String> hardCards = [
     '🎈',
@@ -96,17 +103,18 @@ class _MemoryGameScreenState extends State<MemoryGameScreen> {
     '🌍',
     '🚲'
   ];
-  List<String> cards = [];
-  List<String> visibleCards = [];
-  int previousIndex = -1;
-  int moves = 0;
-  bool isGameOver = false;
-  bool isTappingEnabled = true;
+
+  List<String> cards = []; // Liste de toutes les cartes mélangées.
+  List<String> visibleCards = []; // Liste des cartes visibles à l'écran.
+  int previousIndex = -1; // Indice de la carte précédemment sélectionnée.
+  int moves = 0; // Nombre de mouvements effectués.
+  bool isGameOver = false; // Indique si le jeu est terminé.
+  bool isTappingEnabled = true; // Indique si les taps sont activés.
 
   @override
   void initState() {
     super.initState();
-    initializeGame();
+    initializeGame(); // Initialise le jeu au démarrage.
   }
 
   void initializeGame() {
@@ -114,11 +122,12 @@ class _MemoryGameScreenState extends State<MemoryGameScreen> {
       cards = widget.isHardMode
           ? [...hardCards, ...hardCards]
           : [...easyCards, ...easyCards];
-      cards.shuffle();
-      visibleCards = List.filled(cards.length, '');
-      previousIndex = -1;
-      moves = 0;
-      isGameOver = false;
+      cards.shuffle(); // Mélange les cartes.
+      visibleCards =
+          List.filled(cards.length, ''); // Initialise les cartes visibles.
+      previousIndex = -1; // Réinitialise l'indice précédent.
+      moves = 0; // Réinitialise le nombre de mouvements.
+      isGameOver = false; // Réinitialise l'état du jeu.
     });
   }
 
@@ -142,7 +151,8 @@ class _MemoryGameScreenState extends State<MemoryGameScreen> {
                   }
                 });
                 if (isGameOver) {
-                  showCongratulationsDialog(context);
+                  showCongratulationsDialog(
+                      context); // Affiche un dialogue de félicitations.
                 }
               });
             } else {
@@ -169,8 +179,9 @@ class _MemoryGameScreenState extends State<MemoryGameScreen> {
       context: context,
       builder: (context) {
         return AlertDialog(
-          title: Text('Félicitations !'),
-          content: Text('Vous avez terminé en $moves mouvements.'),
+          title: Text('Félicitations !'), // Titre du dialogue de félicitations.
+          content: Text(
+              'Vous avez terminé en $moves mouvements.'), // Affiche le nombre de mouvements.
           actions: <Widget>[
             TextButton(
               onPressed: () {
@@ -179,12 +190,13 @@ class _MemoryGameScreenState extends State<MemoryGameScreen> {
                   ModalRoute.withName('/'),
                 );
               },
-              child: Text('Menu principal'),
+              child: Text(
+                  'Menu principal'), // Bouton pour revenir au menu principal.
             ),
             TextButton(
               onPressed: () {
                 Navigator.pop(context);
-                initializeGame();
+                initializeGame(); // Bouton pour rejouer.
               },
               child: Text('Rejouer'),
             ),
@@ -204,26 +216,28 @@ class _MemoryGameScreenState extends State<MemoryGameScreen> {
           IconButton(
             icon: Icon(Icons.refresh),
             onPressed: () {
-              initializeGame();
+              initializeGame(); // Bouton pour réinitialiser le jeu.
             },
           ),
         ],
       ),
       body: GridView.builder(
         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: 4,
+          crossAxisCount: 4, // Grille de cartes avec 4 colonnes.
         ),
         itemCount: visibleCards.length,
         itemBuilder: (context, index) {
           return GestureDetector(
             onTap: () {
               if (!isGameOver) {
-                onCardTap(index);
+                onCardTap(index); // Gère le tap sur une carte.
               }
             },
             child: Container(
               margin: EdgeInsets.all(4),
-              color: visibleCards[index] == '' ? Colors.blue : Colors.green,
+              color: visibleCards[index] == ''
+                  ? Colors.blue
+                  : Colors.green, // Couleur de la carte.
               child: Center(
                 child: visibleCards[index] == ''
                     ? null
