@@ -1,6 +1,6 @@
 # Memory Game
 
-Memory Game est une application Flutter simple qui vous permet de jouer à un jeu de mémoire en choisissant entre deux niveaux de difficulté : Facile et Difficile.
+Memory Game est une application Flutter simple qui permet de jouer à un jeu de mémoire en choisissant entre deux niveaux de difficulté : Facile et Difficile.
 
 ## Utilisation
 
